@@ -1,7 +1,9 @@
 import sqlite3
-from config import *
+import discord
+from discord.ext import commands
+from config import DATABASE
 from logic import DB_Manager
 
 if __name__ == "__main__":
-    db_manager = DB_Manager(DATABASE)
-    db_manager.create_tables()
+    manager = DB_Manager(DATABASE)
+    manager.create_tables()
