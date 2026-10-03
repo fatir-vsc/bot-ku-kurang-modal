@@ -28,7 +28,7 @@ python main.py
 
 ## 📸 Screenshot
 
-![Portfolio Bot](Screenshot 2026-10-03 095639.png)
+![Portfolio Bot](smth.png.png)
 
 ## 👨‍💻 Tentang Saya
 
