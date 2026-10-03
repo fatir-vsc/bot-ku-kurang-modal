@@ -1,40 +1,42 @@
 import sqlite3
 from config import DATABASE, token
 
+
 class DB_Manager:
+
     def __init__(self, database):
         self.database = database # Nama databasenya
         
     def create_tables(self):
-
         conn = sqlite3.connect(self.database)
 
         with conn:
 
         
-            conn.execute('''CREATE TABLE skills (
+            conn.execute('''CREATE TABLE IF NOT EXISTS skills (
                 skill_id INTEGER PRIMARY KEY,
                 skill_name TEXT
             )
             ''')
 
-            conn.execute('''CREATE TABLE status (
+            conn.execute('''CREATE TABLE IF NOT EXISTS status (
                 status_id INTEGER PRIMARY KEY,
                 status_name TEXT
             )
             ''')
 
-            conn.execute('''CREATE TABLE projects (
+            conn.execute('''CREATE TABLE IF NOT EXISTS projects (
                 project_id INTEGER PRIMARY KEY,
                 project_name TEXT,
                 description TEXT,
                 url TEXT,
+                user_id INTEGER,
                 status_id INTEGER,
                 FOREIGN KEY (status_id) REFERENCES status(status_id)
             )
             ''')
 
-            conn.execute('''CREATE TABLE project_skills (
+            conn.execute('''CREATE TABLE IF NOT EXISTS project_skills (
                 project_id INTEGER,
                 skill_id INTEGER,
                 PRIMARY KEY (project_id, skill_id),
@@ -42,6 +44,10 @@ class DB_Manager:
                 FOREIGN KEY (skill_id) REFERENCES skills(skill_id)
             )
             ''')
+
+            columns = conn.execute("PRAGMA table_info(projects)").fetchall()
+            if not any(column[1] == "screenshot" for column in columns):
+                conn.execute("ALTER TABLE projects ADD COLUMN screenshot TEXT")
 
             conn.commit()
 
